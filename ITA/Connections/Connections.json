@@ -1,0 +1,82 @@
+{
+  "3e990f5f-a334-4e3e-960b-5ba326f81694": {
+    "connectionInstanceId": "/providers/microsoft.powerapps/apis/shared_planner/connections/9f4a2984b39b4d1999a64706d1a7b058",
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Planner",
+      "iconUri": "https://connectoricons-prod.azureedge.net/planner/icon_1.0.1046.1227.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_planner",
+      "parameterHints": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Planner"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "3e990f5f-a334-4e3e-960b-5ba326f81694"
+  },
+  "631c0fb0-c91e-4afb-8b11-cba5d6872f5e": {
+    "connectionInstanceId": "/providers/microsoft.powerapps/apis/shared_office365users/connections/e9f4a06de13c4f189364b52710f3a657",
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/office365users/icon_1.0.1002.1175.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "631c0fb0-c91e-4afb-8b11-cba5d6872f5e"
+  },
+  "7492cf69-cc78-477d-9fc8-986387722984": {
+    "connectionInstanceId": "/providers/microsoft.powerapps/apis/shared_onenote/connections/5944afe41963484887ef05df807d9b25",
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "OneNote (Business)",
+      "iconUri": "https://connectoricons-prod.azureedge.net/onenote/icon_1.0.1019.1195.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_onenote",
+      "parameterHints": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "OneNote(Business)"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "7492cf69-cc78-477d-9fc8-986387722984"
+  },
+  "88440dcb-31dd-4475-b013-ba3ac5e68e51": {
+    "connectionInstanceId": "/providers/microsoft.powerapps/apis/shared_office365/connections/shared-office365-c414fd2d-8fe0-49d4-b595-f3d0b9b4abdf",
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://connectoricons-prod.azureedge.net/office365/icon_1.0.1008.1183.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "88440dcb-31dd-4475-b013-ba3ac5e68e51"
+  }
+}

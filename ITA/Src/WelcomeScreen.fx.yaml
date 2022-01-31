@@ -1,0 +1,238 @@
+WelcomeScreen As screen:
+    Fill: =RGBA(241, 241, 241, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =Set(_selectedTutorial, {Row: 1, Title: "About", Image: HomeIcon})
+    Width: =Max(App.Width, App.DesignWidth)
+
+    CanvasMain As fluidGrid.fluidGridWithBlankCard:
+        BorderThickness: =0
+        Height: =708
+        Width: =1165
+        X: =If(!IsExpand, 200, 50)
+        Y: =60
+        ZIndex: =7
+
+        DataCardMain As dataCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =0
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =Parent.Height - 100
+            Width: =1165
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            PageTitle As label:
+                Color: =RGBA(0, 0, 0, 1)
+                FocusedBorderColor: =PageTitle.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Lighter
+                Height: =54
+                HoverBorderColor: =PageTitle.BorderColor
+                HoverColor: =PageTitle.Color
+                HoverFill: =PageTitle.Fill
+                PressedBorderColor: =PageTitle.BorderColor
+                PressedColor: =PageTitle.Color
+                PressedFill: =PageTitle.Fill
+                Size: =20
+                Text: ="Build useful apps, fast."
+                Width: =867
+                X: =40
+                Y: =27
+                ZIndex: =2
+
+            HtmlText1 As htmlViewer:
+                Height: =465
+                HoverBorderColor: =HtmlText1.BorderColor
+                HtmlText: |-
+                    ="<div font-size: 14pt; font-weight: normal; color: #444444;'>
+                    This tutorial is step-by-step guide for customizing Microsoft Office in PowerApps. The following components are buiding blocks for creating custom line of business applications that leverage the power of Microsoft Graph!</br>
+                    
+                    <ul style='list-style-type:disc'>
+                      <li><b>People picker</b>: find and select people from your company directory with speed and ease.</li>
+                      <li><b>Planner</b>: lets users assign tasks in Planner – with a description and due date.</li>
+                      <li><b>Outlook</b>: a quick way to create and send an email – just enter an Address, Subject and your text.</li>
+                      <li><b>OneNote</b>: a quick, easy way to enter notes into a specific OneNote notebook and section.</li>
+                      <li><b>Pop-up lightbox</b>: presents users with helpful text when they click on an item in an app.</li>
+                    </ul> 
+                    <p>Get started by editing the app and optionally use the Play button to test the component's functionality. Follow the instructions to learn how to build each component or <i>Copy and Paste</i> the components from this app into your own.</p>
+                    The custom mobile and web apps you can create with PowerApps work on all your favorite platforms including iOS, Android and Windows. PowerApps solutions integrate seamlessly with Microsoft platforms including Office 365, Azure and Dynamics 365. There are also a wide range of connectors to popular 3rd party applications like Salesforce, Oracle and SAP. We hope you enjoy the tutorial and continue to build and explore with PowerApps.
+                    
+                    </div>"
+                PaddingLeft: =0
+                PressedBorderColor: =HtmlText1.BorderColor
+                Width: =714
+                X: =40
+                Y: =81
+                ZIndex: =3
+
+    GroupBackground As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =8
+
+        WelcomeScreenTitleBackground As rectangle:
+            BorderColor: =RGBA(51, 51, 51, 1)
+            DisabledFill: =WelcomeScreenTitleBackground.Fill
+            Fill: =RGBA(116, 39, 116, 1)
+            FocusedBorderColor: =WelcomeScreenTitleBackground.BorderColor
+            Height: =60
+            HoverFill: =WelcomeScreenTitleBackground.Fill
+            PressedFill: =WelcomeScreenTitleBackground.Fill
+            Width: =1366
+            ZIndex: =4
+
+        WelcomeScreenTitle As label:
+            BorderColor: =RGBA(51, 51, 51, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =WelcomeScreenTitle.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =32
+            HoverBorderColor: =WelcomeScreenTitle.BorderColor
+            HoverColor: =WelcomeScreenTitle.Color
+            HoverFill: =WelcomeScreenTitle.Fill
+            LineHeight: =0
+            PressedBorderColor: =WelcomeScreenTitle.BorderColor
+            PressedColor: =WelcomeScreenTitle.Color
+            PressedFill: =WelcomeScreenTitle.Fill
+            Size: =18
+            Text: ="PowerApps Training"
+            Width: =350
+            X: =14
+            Y: =14
+            ZIndex: =5
+
+        ImagePowerAppsLogo As image:
+            BorderColor: =RGBA(51, 51, 51, 1)
+            FocusedBorderColor: =ImagePowerAppsLogo.BorderColor
+            Height: =48
+            HoverBorderColor: =ColorFade(ImagePowerAppsLogo.BorderColor, 20%)
+            HoverFill: =ColorFade(ImagePowerAppsLogo.Fill, 20%)
+            Image: =PowerApps
+            PressedBorderColor: =ColorFade(ImagePowerAppsLogo.BorderColor, -20%)
+            PressedFill: =ColorFade(ImagePowerAppsLogo.Fill, -20%)
+            Width: =48
+            X: =1312
+            Y: =5.999999999999999
+            ZIndex: =6
+
+    GroupNavigation As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =8
+
+        GalleryNavigation As gallery.galleryVertical:
+            DisabledBorderColor: =GalleryNavigation.BorderColor
+            DisabledFill: =GalleryNavigation.Fill
+            Fill: =RGBA(0,0,0,0)
+            HoverBorderColor: =GalleryNavigation.BorderColor
+            HoverFill: =GalleryNavigation.Fill
+            Items: =NavigationMenu
+            Layout: =Layout.Vertical
+            OnSelect: |-
+                =Concurrent(
+                    If(
+                    ThisItem.Row = 1, Navigate(WelcomeScreen, None),
+                    ThisItem.Row = 2, Navigate(PeoplePickerScreen, None),
+                    ThisItem.Row = 3, Navigate(PlannerScreen, None),
+                    ThisItem.Row = 4, Navigate(OutlookScreen, None),
+                    ThisItem.Row = 5, Navigate(OneNoteScreen, None),
+                    ThisItem.Row = 6, Navigate(PopUpLightBoxScreen, None)
+                    ),
+                    Set(_selectedTutorial, ThisItem)
+                )
+            PressedBorderColor: =GalleryNavigation.BorderColor
+            PressedFill: =GalleryNavigation.Fill
+            ShowScrollbar: =false
+            TemplateFill: =If(ThisItem.Row = _selectedTutorial.Row, RGBA(220, 220, 220, 1), RGBA(0,0,0,0))
+            TemplatePadding: =0
+            TemplateSize: =42
+            Width: =If(IsExpand, 50, 200)
+            X: =0+0
+            Y: =109+0
+            ZIndex: =1
+
+            Image1 As image:
+                FocusedBorderColor: =Image1.BorderColor
+                Height: =Parent.TemplateHeight
+                HoverBorderColor: =ColorFade(Image1.BorderColor, 20%)
+                HoverFill: =ColorFade(Image1.Fill, 20%)
+                Image: =ThisItem.Image
+                OnSelect: =Select(Parent)
+                PaddingBottom: =12
+                PaddingTop: =12
+                PressedBorderColor: =ColorFade(Image1.BorderColor, -20%)
+                PressedFill: =ColorFade(Image1.Fill, -20%)
+                Width: =Image1.Height - 10
+                X: =15
+                ZIndex: =1
+
+            Label4 As label:
+                FocusedBorderColor: =Label4.BorderColor
+                FocusedBorderThickness: =2
+                Height: =42
+                HoverBorderColor: =Label4.BorderColor
+                HoverColor: =Label4.Color
+                HoverFill: =Label4.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label4.BorderColor
+                PressedColor: =Label4.Color
+                PressedFill: =Label4.Fill
+                Size: =10
+                TabIndex: =0
+                Text: =ThisItem.Title
+                X: =50
+                ZIndex: =2
+
+            Rectangle1 As rectangle:
+                DisabledFill: =Rectangle1.Fill
+                Fill: =RGBA(116, 39, 116, 1)
+                FocusedBorderColor: =Rectangle1.BorderColor
+                Height: =20
+                HoverFill: =Rectangle1.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =Rectangle1.Fill
+                Visible: =ThisItem.Row = _selectedTutorial.Row
+                Width: =4
+                X: =11
+                Y: =11
+                ZIndex: =3
+
+        iconHamburgerMenu_6 As icon.Hamburger:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledFill: =iconHamburgerMenu_6.Fill
+            FocusedBorderColor: =iconHamburgerMenu_6.BorderColor
+            Height: =16
+            HoverBorderColor: =ColorFade(iconHamburgerMenu_6.BorderColor, 20%)
+            HoverColor: =ColorFade(iconHamburgerMenu_6.Color, 20%)
+            HoverFill: =iconHamburgerMenu_6.Fill
+            Icon: =Icon.Hamburger
+            OnSelect: =Set(IsExpand, !IsExpand)
+            PressedBorderColor: =ColorFade(iconHamburgerMenu_6.BorderColor, -20%)
+            PressedColor: =ColorFade(iconHamburgerMenu_6.Color, -20%)
+            PressedFill: =iconHamburgerMenu_6.Fill
+            TabIndex: =0
+            Width: =16
+            X: =24+0
+            Y: =76+0
+            ZIndex: =2
+
+        Rectangle2_5 As rectangle:
+            DisabledFill: =Rectangle2_5.Fill
+            Fill: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Rectangle2_5.BorderColor
+            Height: =707
+            HoverFill: =Rectangle2_5.Fill
+            PressedFill: =Rectangle2_5.Fill
+            Width: =1
+            X: =CanvasMain.X
+            Y: =61+0
+            ZIndex: =3
+

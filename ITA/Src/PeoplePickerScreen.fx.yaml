@@ -1,0 +1,1076 @@
+PeoplePickerScreen As screen:
+    Fill: =RGBA(241, 241, 241, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =Set(_selectedTutorial, {Row: 2, Title: "People picker", Image: PeopleIcon})
+    Width: =Max(App.Width, App.DesignWidth)
+
+    CanvasMain_1 As fluidGrid.fluidGridWithBlankCard:
+        BorderThickness: =0
+        Height: =708
+        Width: =If(IsExpand, 900, 757)
+        X: =If(!IsExpand, 200, 50)
+        Y: =60
+        ZIndex: =15
+
+        DataCardMain_1 As dataCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =0
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =693
+            Width: =757
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            GallerySelectedPerson As gallery.galleryVertical:
+                AccessibleLabel: ="People for selection"
+                BorderColor: =RGBA(0, 0, 0, 0.16)
+                BorderThickness: =1
+                DisabledBorderColor: =GallerySelectedPerson.BorderColor
+                DisabledFill: =GallerySelectedPerson.Fill
+                Fill: =RGBA(255, 255, 255, 1)
+                Height: =250
+                HoverBorderColor: =GallerySelectedPerson.BorderColor
+                HoverFill: =GallerySelectedPerson.Fill
+                Items: |-
+                    =If(!IsBlank(TextInputSearchPerson.Text), Office365Users.SearchUser({searchTerm:Trim(TextInputSearchPerson.Text)}))
+                Layout: =Layout.Vertical
+                OnSelect: |-
+                    = UpdateContext({SelectedPerson:ThisItem, HidePeopleGallery:true, IsShowPeopleDetails: true})
+                PressedBorderColor: =GallerySelectedPerson.BorderColor
+                PressedFill: =GallerySelectedPerson.Fill
+                TemplateSize: =53
+                Visible: =Not(IsBlank(TextInputSearchPerson)) && !HidePeopleGallery
+                Width: =260
+                X: =35
+                Y: =185
+                ZIndex: =12
+
+                LabelPersonDisplayName As label:
+                    Color: =RGBA(0, 0, 0, 1)
+                    FocusedBorderColor: =LabelPersonDisplayName.BorderColor
+                    Font: =Font.'Segoe UI'
+                    Height: =51
+                    HoverBorderColor: =LabelPersonDisplayName.BorderColor
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =RGBA(244, 244, 244, 1)
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =15
+                    PaddingLeft: =20
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =LabelPersonDisplayName.BorderColor
+                    PressedColor: =LabelPersonDisplayName.Color
+                    PressedFill: =LabelPersonDisplayName.Fill
+                    Size: =10
+                    TabIndex: =0
+                    Text: =ThisItem.DisplayName
+                    Width: =250
+                    ZIndex: =1
+
+                LabelPersonJobTitle As label:
+                    Color: =RGBA(0, 0, 0, 1)
+                    FocusedBorderColor: =LabelPersonJobTitle.BorderColor
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =23
+                    HoverBorderColor: =LabelPersonJobTitle.BorderColor
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =RGBA(0, 0, 0, 0)
+                    OnSelect: =Select(Parent)
+                    PaddingLeft: =20
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =LabelPersonJobTitle.BorderColor
+                    PressedColor: =LabelPersonJobTitle.Color
+                    PressedFill: =LabelPersonJobTitle.Fill
+                    Size: =9
+                    TabIndex: =0
+                    Text: =ThisItem.JobTitle
+                    VerticalAlign: =VerticalAlign.Bottom
+                    Width: =250
+                    Y: =27
+                    ZIndex: =2
+
+            GroupPeoplePickerInfo As group:
+                Height: =5
+                Width: =5
+                X: =-190
+                Y: =-47
+                ZIndex: =20
+
+                LabelProfileInfoDescription As label:
+                    FocusedBorderColor: =LabelProfileInfoDescription.BorderColor
+                    Font: =Font.'Segoe UI'
+                    Height: =35
+                    HoverBorderColor: =LabelProfileInfoDescription.BorderColor
+                    HoverColor: =LabelProfileInfoDescription.Color
+                    HoverFill: =LabelProfileInfoDescription.Fill
+                    PressedBorderColor: =LabelProfileInfoDescription.BorderColor
+                    PressedColor: =LabelProfileInfoDescription.Color
+                    PressedFill: =LabelProfileInfoDescription.Fill
+                    Size: =9
+                    TabIndex: =0
+                    Text: ="User profile information helps you find details about your colleges and how to contact them."
+                    Visible: =IsShowPeopleDetails
+                    Width: =550
+                    X: =29
+                    Y: =370
+                    ZIndex: =1
+
+                LabelUserProfileInfoTitle As label:
+                    FocusedBorderColor: =LabelUserProfileInfoTitle.BorderColor
+                    Font: =Font.'Segoe UI'
+                    Height: =41
+                    HoverBorderColor: =LabelUserProfileInfoTitle.BorderColor
+                    HoverColor: =LabelUserProfileInfoTitle.Color
+                    HoverFill: =LabelUserProfileInfoTitle.Fill
+                    PressedBorderColor: =LabelUserProfileInfoTitle.BorderColor
+                    PressedColor: =LabelUserProfileInfoTitle.Color
+                    PressedFill: =LabelUserProfileInfoTitle.Fill
+                    Size: =13.5
+                    TabIndex: =0
+                    Text: ="Profile Information"
+                    Visible: =IsShowPeopleDetails
+                    Width: =360
+                    X: =29
+                    Y: =335
+                    ZIndex: =2
+
+                ImageSelectedPersonPhoto As image:
+                    FocusedBorderColor: =ImageSelectedPersonPhoto.BorderColor
+                    Height: =96
+                    HoverBorderColor: =ColorFade(ImageSelectedPersonPhoto.BorderColor, 20%)
+                    HoverFill: =ColorFade(ImageSelectedPersonPhoto.Fill, 20%)
+                    Image: =If(Not(IsBlank(SelectedPerson.Id)) && Office365Users.UserPhotoMetadata(SelectedPerson.Id).HasPhoto,Office365Users.UserPhoto(SelectedPerson.Id),'default-profile')
+                    PressedBorderColor: =ColorFade(ImageSelectedPersonPhoto.BorderColor, -20%)
+                    PressedFill: =ColorFade(ImageSelectedPersonPhoto.Fill, -20%)
+                    TabIndex: =0
+                    Visible: =IsShowPeopleDetails
+                    Width: =96
+                    X: =35
+                    Y: =221
+                    ZIndex: =3
+
+                LabelForSelectedPersonFullName As label:
+                    FocusedBorderColor: =LabelForSelectedPersonFullName.BorderColor
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =Bold
+                    HoverBorderColor: =LabelForSelectedPersonFullName.BorderColor
+                    HoverColor: =LabelForSelectedPersonFullName.Color
+                    HoverFill: =LabelForSelectedPersonFullName.Fill
+                    PressedBorderColor: =LabelForSelectedPersonFullName.BorderColor
+                    PressedColor: =LabelForSelectedPersonFullName.Color
+                    PressedFill: =LabelForSelectedPersonFullName.Fill
+                    Size: =10.5
+                    TabIndex: =0
+                    Text: ="Full name"
+                    Visible: =IsShowPeopleDetails
+                    X: =29
+                    Y: =423
+                    ZIndex: =4
+
+                LabelForSelectedPersonCompanyName As label:
+                    FocusedBorderColor: =LabelForSelectedPersonCompanyName.BorderColor
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =Bold
+                    HoverBorderColor: =LabelForSelectedPersonCompanyName.BorderColor
+                    HoverColor: =LabelForSelectedPersonCompanyName.Color
+                    HoverFill: =LabelForSelectedPersonCompanyName.Fill
+                    PressedBorderColor: =LabelForSelectedPersonCompanyName.BorderColor
+                    PressedColor: =LabelForSelectedPersonCompanyName.Color
+                    PressedFill: =LabelForSelectedPersonCompanyName.Fill
+                    Size: =10.5
+                    TabIndex: =0
+                    Text: ="Company"
+                    Visible: =IsShowPeopleDetails
+                    X: =29
+                    Y: =479
+                    ZIndex: =5
+
+                LabelForSelectedPersonMobilePhone As label:
+                    FocusedBorderColor: =LabelForSelectedPersonMobilePhone.BorderColor
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =Bold
+                    HoverBorderColor: =LabelForSelectedPersonMobilePhone.BorderColor
+                    HoverColor: =LabelForSelectedPersonMobilePhone.Color
+                    HoverFill: =LabelForSelectedPersonMobilePhone.Fill
+                    PressedBorderColor: =LabelForSelectedPersonMobilePhone.BorderColor
+                    PressedColor: =LabelForSelectedPersonMobilePhone.Color
+                    PressedFill: =LabelForSelectedPersonMobilePhone.Fill
+                    Size: =10.5
+                    TabIndex: =0
+                    Text: ="Phone number"
+                    Visible: =IsShowPeopleDetails
+                    X: =29
+                    Y: =543
+                    ZIndex: =6
+
+                LabelForSelectedPersonManager As label:
+                    FocusedBorderColor: =LabelForSelectedPersonManager.BorderColor
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =Bold
+                    HoverBorderColor: =LabelForSelectedPersonManager.BorderColor
+                    HoverColor: =LabelForSelectedPersonManager.Color
+                    HoverFill: =LabelForSelectedPersonManager.Fill
+                    PressedBorderColor: =LabelForSelectedPersonManager.BorderColor
+                    PressedColor: =LabelForSelectedPersonManager.Color
+                    PressedFill: =LabelForSelectedPersonManager.Fill
+                    Size: =10.5
+                    TabIndex: =0
+                    Text: ="Manager"
+                    Visible: =IsShowPeopleDetails
+                    X: =29
+                    Y: =603
+                    ZIndex: =7
+
+                LabelSelectedPersonGivenName As label:
+                    FocusedBorderColor: =LabelSelectedPersonGivenName.BorderColor
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =LabelSelectedPersonGivenName.BorderColor
+                    HoverColor: =LabelSelectedPersonGivenName.Color
+                    HoverFill: =LabelSelectedPersonGivenName.Fill
+                    PressedBorderColor: =LabelSelectedPersonGivenName.BorderColor
+                    PressedColor: =LabelSelectedPersonGivenName.Color
+                    PressedFill: =LabelSelectedPersonGivenName.Fill
+                    Size: =10.5
+                    TabIndex: =0
+                    Text: =SelectedPerson.DisplayName
+                    Visible: =IsShowPeopleDetails
+                    X: =29
+                    Y: =444
+                    ZIndex: =8
+
+                LabelSelectedPersonCompanyName As label:
+                    FocusedBorderColor: =LabelSelectedPersonCompanyName.BorderColor
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =LabelSelectedPersonCompanyName.BorderColor
+                    HoverColor: =LabelSelectedPersonCompanyName.Color
+                    HoverFill: =LabelSelectedPersonCompanyName.Fill
+                    PressedBorderColor: =LabelSelectedPersonCompanyName.BorderColor
+                    PressedColor: =LabelSelectedPersonCompanyName.Color
+                    PressedFill: =LabelSelectedPersonCompanyName.Fill
+                    Size: =10.5
+                    TabIndex: =0
+                    Text: =SelectedPerson.CompanyName
+                    Visible: =IsShowPeopleDetails
+                    X: =29
+                    Y: =503
+                    ZIndex: =9
+
+                LabelSelectedPersonMobilePhone As label:
+                    FocusedBorderColor: =LabelSelectedPersonMobilePhone.BorderColor
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =LabelSelectedPersonMobilePhone.BorderColor
+                    HoverColor: =LabelSelectedPersonMobilePhone.Color
+                    HoverFill: =LabelSelectedPersonMobilePhone.Fill
+                    PressedBorderColor: =LabelSelectedPersonMobilePhone.BorderColor
+                    PressedColor: =LabelSelectedPersonMobilePhone.Color
+                    PressedFill: =LabelSelectedPersonMobilePhone.Fill
+                    Size: =10.5
+                    TabIndex: =0
+                    Text: =SelectedPerson.mobilePhone
+                    Visible: =IsShowPeopleDetails
+                    X: =29
+                    Y: =567
+                    ZIndex: =10
+
+                LabelSelectedPersonManager As label:
+                    FocusedBorderColor: =LabelSelectedPersonManager.BorderColor
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =LabelSelectedPersonManager.BorderColor
+                    HoverColor: =LabelSelectedPersonManager.Color
+                    HoverFill: =LabelSelectedPersonManager.Fill
+                    PressedBorderColor: =LabelSelectedPersonManager.BorderColor
+                    PressedColor: =LabelSelectedPersonManager.Color
+                    PressedFill: =LabelSelectedPersonManager.Fill
+                    Size: =10.5
+                    TabIndex: =0
+                    Text: =If(IsBlank(SelectedPerson.Id), "N/A", If(IsBlank(Office365Users.Manager(SelectedPerson.Id).DisplayName), "N/A", Office365Users.Manager(SelectedPerson.Id).DisplayName))
+                    Visible: =IsShowPeopleDetails
+                    X: =29
+                    Y: =623
+                    ZIndex: =11
+
+            GroupControlTitle_1 As group:
+                Height: =5
+                Width: =5
+                X: =-190
+                Y: =-47
+                ZIndex: =21
+
+                PageTitle_1 As label:
+                    Color: =RGBA(0, 0, 0, 1)
+                    FocusedBorderColor: =PageTitle_1.BorderColor
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Lighter
+                    Height: =35
+                    HoverBorderColor: =PageTitle_1.BorderColor
+                    HoverColor: =PageTitle_1.Color
+                    HoverFill: =PageTitle_1.Fill
+                    PressedBorderColor: =PageTitle_1.BorderColor
+                    PressedColor: =PageTitle_1.Color
+                    PressedFill: =PageTitle_1.Fill
+                    Size: =15
+                    Text: ="People picker sample "
+                    Width: =607
+                    X: =29
+                    Y: =27
+                    ZIndex: =13
+
+                DescriptionLabel_1 As label:
+                    Color: =RGBA(0, 0, 0, 1)
+                    FocusedBorderColor: =DescriptionLabel_1.BorderColor
+                    Font: =Font.'Segoe UI'
+                    Height: =70
+                    HoverBorderColor: =DescriptionLabel_1.BorderColor
+                    HoverColor: =DescriptionLabel_1.Color
+                    HoverFill: =DescriptionLabel_1.Fill
+                    PressedBorderColor: =DescriptionLabel_1.BorderColor
+                    PressedColor: =DescriptionLabel_1.Color
+                    PressedFill: =DescriptionLabel_1.Fill
+                    Size: =9
+                    Text: ="The People Picker Control enables users to search and identify individuals in their Azure Active Directory (AAD) for their organization. AAD content for individuals includes helpful information such as email address, job title, location, phone number, and a picture of the individual."
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =682
+                    X: =30
+                    Y: =67.5
+                    ZIndex: =14
+
+            GroupControlSearchbox As group:
+                Height: =5
+                Width: =5
+                X: =-190
+                Y: =-47
+                ZIndex: =22
+
+                RectangleSearchBackground As rectangle:
+                    BorderColor: =RGBA(200, 200, 200, 1)
+                    BorderThickness: =1
+                    DisabledFill: =RectangleSearchBackground.Fill
+                    Fill: =RGBA(255, 255, 255, 1)
+                    FocusedBorderColor: =RectangleSearchBackground.BorderColor
+                    FocusedBorderThickness: =1
+                    Height: =40
+                    HoverFill: =RectangleSearchBackground.Fill
+                    PressedFill: =RectangleSearchBackground.Fill
+                    Width: =260
+                    X: =35
+                    Y: =145
+                    ZIndex: =15
+
+                iconStartSearch As icon.Search:
+                    AccessibleLabel: ="Start search"
+                    Color: =RGBA(0, 120, 215, 1)
+                    DisabledFill: =iconStartSearch.Fill
+                    FocusedBorderColor: =iconStartSearch.BorderColor
+                    FocusedBorderThickness: =1
+                    Height: =16
+                    HoverBorderColor: =ColorFade(iconStartSearch.BorderColor, 20%)
+                    HoverColor: =ColorFade(iconStartSearch.Color, 20%)
+                    HoverFill: =iconStartSearch.Fill
+                    Icon: =Icon.Search
+                    PressedBorderColor: =ColorFade(iconStartSearch.BorderColor, -20%)
+                    PressedColor: =ColorFade(iconStartSearch.Color, -20%)
+                    PressedFill: =iconStartSearch.Fill
+                    Visible: =!HidePeopleGallery
+                    Width: =16
+                    X: =51
+                    Y: =157
+                    ZIndex: =16
+
+                TextInputSearchPerson As text:
+                    AccessibleLabel: ="Search person"
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =RGBA(51, 51, 51, 1)
+                    Default: =
+                    FocusedBorderColor: =TextInputSearchPerson.BorderColor
+                    FocusedBorderThickness: =1
+                    Font: =Font.'Segoe UI'
+                    Height: =38
+                    HintText: ="Search Contacts & Directory"
+                    HoverBorderColor: =RGBA(255, 255, 255, 1)
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =RGBA(255, 255, 255, 1)
+                    PressedBorderColor: =TextInputSearchPerson.HoverBorderColor
+                    PressedColor: =TextInputSearchPerson.Color
+                    PressedFill: =TextInputSearchPerson.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Reset: =
+                    Size: =9
+                    Width: =226
+                    X: =67
+                    Y: =146
+                    ZIndex: =17
+
+                iconEditSearch As icon.Edit:
+                    AccessibleLabel: ="Edit search"
+                    DisabledFill: =iconEditSearch.Fill
+                    FocusedBorderColor: =iconEditSearch.BorderColor
+                    FocusedBorderThickness: =1
+                    Height: =16
+                    HoverBorderColor: =ColorFade(iconEditSearch.BorderColor, 20%)
+                    HoverColor: =ColorFade(iconEditSearch.Color, 20%)
+                    HoverFill: =iconEditSearch.Fill
+                    Icon: =Icon.Edit
+                    OnSelect: |-
+                        = UpdateContext({HidePeopleGallery:false, IsShowPeopleDetails: false})
+                    PressedBorderColor: =ColorFade(iconEditSearch.BorderColor, -20%)
+                    PressedColor: =ColorFade(iconEditSearch.Color, -20%)
+                    PressedFill: =iconEditSearch.Fill
+                    Visible: =HidePeopleGallery
+                    Width: =16
+                    X: =51
+                    Y: =157
+                    ZIndex: =18
+
+                LabelValueHover As label:
+                    BorderStyle: =BorderStyle.None
+                    Fill: =RGBA(255, 255, 255, 1)
+                    FocusedBorderColor: =LabelValueHover.BorderColor
+                    FocusedBorderThickness: =1
+                    Font: =Font.'Segoe UI'
+                    Height: =36
+                    HoverBorderColor: =LabelValueHover.BorderColor
+                    HoverColor: =LabelValueHover.Color
+                    HoverFill: =LabelValueHover.Fill
+                    OnSelect: |-
+                        = UpdateContext({HidePeopleGallery:false, IsShowPeopleDetails: false})
+                    PaddingLeft: =10
+                    PressedBorderColor: =LabelValueHover.BorderColor
+                    PressedColor: =LabelValueHover.Color
+                    PressedFill: =LabelValueHover.Fill
+                    Size: =9
+                    TabIndex: =0
+                    Text: =SelectedPerson.DisplayName
+                    Visible: =HidePeopleGallery
+                    Width: =226
+                    X: =67
+                    Y: =147
+                    ZIndex: =19
+
+    Video1 As videoPlayback:
+        FocusedBorderColor: =Video1.BorderColor
+        Height: =214
+        Media: |-
+            ="https://www.youtube.com/watch?v=xs_hWRNCwuA"
+        Visible: =IsShowResourcesTab
+        Width: =366
+        X: =975+0
+        Y: =300+0
+        ZIndex: =16
+
+    GroupNavigation_1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =16
+
+        GalleryNavigation_1 As gallery.galleryVertical:
+            DisabledBorderColor: =GalleryNavigation_1.BorderColor
+            DisabledFill: =GalleryNavigation_1.Fill
+            Fill: =RGBA(0,0,0,0)
+            HoverBorderColor: =GalleryNavigation_1.BorderColor
+            HoverFill: =GalleryNavigation_1.Fill
+            Items: =NavigationMenu
+            Layout: =Layout.Vertical
+            OnSelect: |-
+                =Concurrent(
+                    If(
+                    ThisItem.Row = 1, Navigate(WelcomeScreen, None),
+                    ThisItem.Row = 2, Navigate(PeoplePickerScreen, None),
+                    ThisItem.Row = 3, Navigate(PlannerScreen, None),
+                    ThisItem.Row = 4, Navigate(OutlookScreen, None),
+                    ThisItem.Row = 5, Navigate(OneNoteScreen, None),
+                    ThisItem.Row = 6, Navigate(PopUpLightBoxScreen, None)
+                    ),
+                    Set(_selectedTutorial, ThisItem)
+                )
+            PressedBorderColor: =GalleryNavigation_1.BorderColor
+            PressedFill: =GalleryNavigation_1.Fill
+            ShowScrollbar: =false
+            TemplateFill: =If(ThisItem.Row = _selectedTutorial.Row, RGBA(220, 220, 220, 1), RGBA(0,0,0,0))
+            TemplatePadding: =0
+            TemplateSize: =42
+            Width: =If(IsExpand, 50, 200)
+            X: =0+0
+            Y: =109+0
+            ZIndex: =1
+
+            Image1_1 As image:
+                FocusedBorderColor: =Image1_1.BorderColor
+                Height: =Parent.TemplateHeight
+                HoverBorderColor: =ColorFade(Image1_1.BorderColor, 20%)
+                HoverFill: =ColorFade(Image1_1.Fill, 20%)
+                Image: =ThisItem.Image
+                OnSelect: =Select(Parent)
+                PaddingBottom: =12
+                PaddingTop: =12
+                PressedBorderColor: =ColorFade(Image1_1.BorderColor, -20%)
+                PressedFill: =ColorFade(Image1_1.Fill, -20%)
+                Width: =Image1_1.Height - 10
+                X: =15
+                ZIndex: =1
+
+            Label4_1 As label:
+                FocusedBorderColor: =Label4_1.BorderColor
+                FocusedBorderThickness: =2
+                Height: =42
+                HoverBorderColor: =Label4_1.BorderColor
+                HoverColor: =Label4_1.Color
+                HoverFill: =Label4_1.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label4_1.BorderColor
+                PressedColor: =Label4_1.Color
+                PressedFill: =Label4_1.Fill
+                Size: =10
+                TabIndex: =0
+                Text: =ThisItem.Title
+                X: =50
+                ZIndex: =2
+
+            Rectangle1_1 As rectangle:
+                DisabledFill: =Rectangle1_1.Fill
+                Fill: =RGBA(116, 39, 116, 1)
+                FocusedBorderColor: =Rectangle1_1.BorderColor
+                Height: =20
+                HoverFill: =Rectangle1_1.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =Rectangle1_1.Fill
+                Visible: =ThisItem.Row = _selectedTutorial.Row
+                Width: =4
+                X: =11
+                Y: =11
+                ZIndex: =3
+
+        iconHamburgerMenu_7 As icon.Hamburger:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledFill: =iconHamburgerMenu_7.Fill
+            FocusedBorderColor: =iconHamburgerMenu_7.BorderColor
+            Height: =16
+            HoverBorderColor: =ColorFade(iconHamburgerMenu_7.BorderColor, 20%)
+            HoverColor: =ColorFade(iconHamburgerMenu_7.Color, 20%)
+            HoverFill: =iconHamburgerMenu_7.Fill
+            Icon: =Icon.Hamburger
+            OnSelect: =Set(IsExpand, !IsExpand)
+            PressedBorderColor: =ColorFade(iconHamburgerMenu_7.BorderColor, -20%)
+            PressedColor: =ColorFade(iconHamburgerMenu_7.Color, -20%)
+            PressedFill: =iconHamburgerMenu_7.Fill
+            TabIndex: =0
+            Width: =16
+            X: =24+0
+            Y: =76+0
+            ZIndex: =2
+
+        Rectangle2_4 As rectangle:
+            DisabledFill: =Rectangle2_4.Fill
+            Fill: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Rectangle2_4.BorderColor
+            Height: =707
+            HoverFill: =Rectangle2_4.Fill
+            PressedFill: =Rectangle2_4.Fill
+            Width: =1
+            X: =CanvasMain_1.X
+            Y: =61+0
+            ZIndex: =3
+
+    Label1 As label:
+        FocusedBorderColor: =Label1.BorderColor
+        Height: =95
+        HoverBorderColor: =Label1.BorderColor
+        HoverColor: =Label1.Color
+        HoverFill: =Label1.Fill
+        PaddingBottom: =0
+        PaddingLeft: =23.5
+        PaddingRight: =20
+        PressedBorderColor: =Label1.BorderColor
+        PressedColor: =Label1.Color
+        PressedFill: =Label1.Fill
+        Size: =11
+        Text: ="We have many resources to help you learn about PowerApps, including sample applications, video tutorials, articles and other references. Links to these resources can be found below. "
+        Visible: =IsShowResourcesTab
+        Width: =409
+        X: =957+0
+        Y: =170+0
+        ZIndex: =17
+
+    Label1_1 As label:
+        FocusedBorderColor: =Label1_1.BorderColor
+        FontWeight: =Bold
+        Height: =33
+        HoverBorderColor: =Label1_1.BorderColor
+        HoverColor: =Label1_1.Color
+        HoverFill: =Label1_1.Fill
+        PaddingLeft: =23.5
+        PaddingRight: =20
+        PressedBorderColor: =Label1_1.BorderColor
+        PressedColor: =Label1_1.Color
+        PressedFill: =Label1_1.Fill
+        Size: =12
+        Text: ="How-to Video"
+        Visible: =IsShowResourcesTab
+        Width: =409
+        X: =957+0
+        Y: =267+0
+        ZIndex: =18
+
+    Label2 As label:
+        FocusedBorderColor: =Label2.BorderColor
+        HoverBorderColor: =Label2.BorderColor
+        HoverColor: =Label2.Color
+        HoverFill: =Label2.Fill
+        OnSelect: |-
+            =Launch("https://www.youtube.com/watch?v=uwG1Og4f0Vo")
+        PressedBorderColor: =Label2.BorderColor
+        PressedColor: =Label2.Color
+        PressedFill: =Label2.Fill
+        Size: =10
+        TabIndex: =0
+        Text: |-
+            ="https://www.youtube.com/watch?v=xs_hWRNCwuA"
+        Tooltip: ="Select to launch video in new tab"
+        Underline: =true
+        Visible: =IsShowResourcesTab
+        Width: =366
+        X: =975+0
+        Y: =514+0
+        ZIndex: =19
+
+    GroupBackground_1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =54
+
+        WelcomeScreenTitleBackground_1 As rectangle:
+            BorderColor: =RGBA(51, 51, 51, 1)
+            DisabledFill: =WelcomeScreenTitleBackground_1.Fill
+            Fill: =RGBA(116, 39, 116, 1)
+            FocusedBorderColor: =WelcomeScreenTitleBackground_1.BorderColor
+            Height: =60
+            HoverFill: =WelcomeScreenTitleBackground_1.Fill
+            PressedFill: =WelcomeScreenTitleBackground_1.Fill
+            Width: =1366
+            ZIndex: =4
+
+        WelcomeScreenTitle_1 As label:
+            BorderColor: =RGBA(51, 51, 51, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =WelcomeScreenTitle_1.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =32
+            HoverBorderColor: =WelcomeScreenTitle_1.BorderColor
+            HoverColor: =WelcomeScreenTitle_1.Color
+            HoverFill: =WelcomeScreenTitle_1.Fill
+            LineHeight: =0
+            PressedBorderColor: =WelcomeScreenTitle_1.BorderColor
+            PressedColor: =WelcomeScreenTitle_1.Color
+            PressedFill: =WelcomeScreenTitle_1.Fill
+            Size: =18
+            Text: ="PowerApps Training"
+            Width: =350
+            X: =14
+            Y: =14
+            ZIndex: =5
+
+        ImagePowerAppsLogo_1 As image:
+            BorderColor: =RGBA(51, 51, 51, 1)
+            FocusedBorderColor: =ImagePowerAppsLogo_1.BorderColor
+            Height: =48
+            HoverBorderColor: =ColorFade(ImagePowerAppsLogo_1.BorderColor, 20%)
+            HoverFill: =ColorFade(ImagePowerAppsLogo_1.Fill, 20%)
+            Image: =PowerApps
+            PressedBorderColor: =ColorFade(ImagePowerAppsLogo_1.BorderColor, -20%)
+            PressedFill: =ColorFade(ImagePowerAppsLogo_1.Fill, -20%)
+            Width: =48
+            X: =1312
+            Y: =6
+            ZIndex: =6
+
+    GroupDetailsPanel_1 As group:
+        Height: =5
+        Width: =5
+        X: =-906
+        Y: =-20
+        ZIndex: =58
+
+        RectangleDetailsBackground_1 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0.16)
+            BorderThickness: =1
+            DisabledFill: =RectangleDetailsBackground_1.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RectangleDetailsBackground_1.BorderColor
+            Height: =708
+            HoverFill: =RectangleDetailsBackground_1.Fill
+            PressedFill: =RectangleDetailsBackground_1.Fill
+            Width: =420
+            X: =946
+            Y: =60
+            ZIndex: =7
+
+        LabelDetalisTitle_1 As label:
+            FocusedBorderColor: =LabelDetalisTitle_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Lighter
+            HoverBorderColor: =LabelDetalisTitle_1.BorderColor
+            HoverColor: =LabelDetalisTitle_1.Color
+            HoverFill: =LabelDetalisTitle_1.Fill
+            PressedBorderColor: =LabelDetalisTitle_1.BorderColor
+            PressedColor: =LabelDetalisTitle_1.Color
+            PressedFill: =LabelDetalisTitle_1.Fill
+            Size: =15
+            Text: ="Details"
+            X: =975
+            Y: =82
+            ZIndex: =8
+
+        LabelDetailsSteps_1 As label:
+            Color: =If(IsShowResourcesTab, RGBA(102,102,102,1), RGBA(51,51,51,1))
+            FocusedBorderColor: =LabelDetailsSteps_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =If(!IsShowResourcesTab,FontWeight.Bold, FontWeight.Normal)
+            HoverBorderColor: =LabelDetailsSteps_1.BorderColor
+            HoverColor: =LabelDetailsSteps_1.Color
+            HoverFill: =LabelDetailsSteps_1.Fill
+            OnSelect: |-
+                =UpdateContext({IsShowResourcesTab: false})
+            PressedBorderColor: =LabelDetailsSteps_1.BorderColor
+            PressedColor: =LabelDetailsSteps_1.Color
+            PressedFill: =LabelDetailsSteps_1.Fill
+            Size: =10.5
+            TabIndex: =0
+            Text: ="Steps"
+            Width: =59
+            X: =979
+            Y: =130
+            ZIndex: =9
+
+        LabelDetailsResources_1 As label:
+            Align: =Align.Center
+            Color: =If(IsShowResourcesTab, RGBA(51,51,51,1), RGBA(102,102,102,1))
+            FocusedBorderColor: =LabelDetailsResources_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =If(IsShowResourcesTab,FontWeight.Bold, FontWeight.Normal)
+            HoverBorderColor: =LabelDetailsResources_1.BorderColor
+            HoverColor: =LabelDetailsResources_1.Color
+            HoverFill: =LabelDetailsResources_1.Fill
+            OnSelect: |-
+                =UpdateContext({IsShowResourcesTab: true})
+            PressedBorderColor: =LabelDetailsResources_1.BorderColor
+            PressedColor: =LabelDetailsResources_1.Color
+            PressedFill: =LabelDetailsResources_1.Fill
+            Size: =10.5
+            TabIndex: =0
+            Text: ="Resources"
+            Width: =98
+            X: =1038
+            Y: =130
+            ZIndex: =10
+
+        RectangleTab1_1 As rectangle:
+            BorderStyle: =BorderStyle.None
+            DisabledFill: =RectangleTab1_1.Fill
+            Fill: =RGBA(116, 39, 116, 1)
+            FocusedBorderColor: =RectangleTab1_1.BorderColor
+            Height: =2
+            HoverFill: =RectangleTab1_1.Fill
+            OnSelect: |
+                =false
+            PressedFill: =RectangleTab1_1.Fill
+            Visible: =!IsShowResourcesTab
+            Width: =LabelDetailsSteps_1.Width - 15
+            X: =983
+            Y: =168
+            ZIndex: =11
+
+        RectangleTab2_1 As rectangle:
+            BorderStyle: =BorderStyle.None
+            DisabledFill: =RectangleTab2_1.Fill
+            Fill: =RGBA(116, 39, 116, 1)
+            FocusedBorderColor: =RectangleTab2_1.BorderColor
+            Height: =2
+            HoverFill: =RectangleTab2_1.Fill
+            PressedFill: =RectangleTab2_1.Fill
+            Visible: =IsShowResourcesTab
+            Width: =LabelDetailsResources_1.Width - 23
+            X: =LabelDetailsResources_1.X + 13
+            Y: =168
+            ZIndex: =12
+
+        HtmlTextFunctionPanelSteps_1 As htmlViewer:
+            Font: =Font.'Segoe UI'
+            Height: =596
+            HoverBorderColor: =HtmlTextFunctionPanelSteps_1.BorderColor
+            HtmlText: |-
+                ="
+                <div style='margin: 0 0 0 20px; font-size: 12pt !important; font-weight: normal; color: #444444; padding: 0 10px; width: 100%; overflow: hidden;'>
+                    <div style=""width: 85%; margin: 10px 0 20px;"">Follow the steps outlined below to build your People Picker PowerApps component: </div>
+                  
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >1</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a data connection and select Office 365 Users, click connect, and if prompted to sign in, enter your work account.<br /><br />
+                    </div>
+                    <div style=""clear: both""></div>
+                  
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >2</div>
+                    <div style=""float: left; width: 75%; "">
+                        Place Text Input control on an empty form and name it as <br /><strong>TextInputSearchPerson.</strong><br /><br />
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >3</div>
+                    <div style=""float: left; width: 75%; "">
+                        Set the &ldquo;<strong>Reset</strong>&rdquo; property of the Text Input control to:<br /><br /> 
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                ClearTextBox
+                            </pre>
+                        </em>  
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >4</div>
+                    <div style=""float: left; width: 75%; "">
+                        Set the &ldquo;<strong>HintText</strong>&rdquo; property of the Text Input control to: <br /><br /> 
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                Search Contacts &amp; Directory
+                            </pre>
+                        </em>
+                         and delete the value of the &ldquo;<strong>Default</strong>&rdquo; property.<br /><br />
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >5</div>
+                    <div style=""float: left; width: 75%; "">
+                        Place a Gallery control on the form and name it as <strong>GallerySelectedPerson.</strong><br /><br />
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >6</div>
+                    <div style=""float: left; width: 75%; "">
+                        Set the &ldquo;<strong>Items</strong>&rdquo; property of the gallery to: <br /><br />
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                If(
+                 !IsBlank(TextInputSearchPerson.Text),
+                 Office365Users.SearchUser({
+                   searchTerm:
+                     Trim(
+                      TextInputSearchPerson.Text
+                     )}))
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >7</div>
+                    <div style=""float: left; width: 75%; "">
+                        Set the &ldquo;<strong>OnSelect</strong>&rdquo; property of the gallery to: <br /><br />
+                    <em>
+                        <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                Set(SelectedPerson,ThisItem);
+                Set(ClearTextBox,!ClearTextBox);
+                Set(ClearTextBox,!ClearTextBox)
+                        </pre>
+                    </em>    
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >8</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control to the gallery and set the &ldquo;<strong>Text</strong>&rdquo; property to: <br /> <br />
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                ThisItem.DisplayName
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >9</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control to the gallery and set the &ldquo;<strong>Text</strong>&rdquo; property to:<br />
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                ThisItem.JobTitle
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >10</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add an Image control to the Gallery and set the &ldquo;<strong>Image</strong>&rdquo; property to: <br /> <br /> 
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                If(
+                 Not(IsBlank(SelectedPerson.Id)) 
+                 And Office365Users.
+                  UserPhotoMetadata(
+                    SelectedPerson.Id
+                  ).HasPhoto,
+                  Office365Users.UserPhoto(
+                    SelectedPerson.Id))
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >11</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control on the form and set the &ldquo;<strong>Text</strong>&rdquo; property to: <br /><br /> 
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                Full name
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >12</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control on the form and set the &ldquo;<strong>Text</strong>&rdquo; property to: <br /><br />
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                SelectedPerson.DisplayName
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >13</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control on the form and set the &ldquo;<strong>Text</strong>&rdquo; property to: <br /><br /> 
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                Company
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >14</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control on the form and set the &ldquo;<strong>Text</strong>&rdquo; property to:<br /><br /> 
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                SelectedPerson.CompanyName
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >15</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control on the form and set the &ldquo;<strong>Text</strong>&rdquo; property to: <br /> <br />
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                Phone number
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >16</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control on the form and set the &ldquo;<strong>Text</strong>&rdquo; property to:<br /> 
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                SelectedPerson.mobilePhone
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >17</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control and set the &ldquo;<strong>Text</strong>&rdquo; property to: <br /> <br />
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                Manager
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >18</div>
+                    <div style=""float: left; width: 75%; "">
+                        Add a Label control on the form and set the &ldquo;<strong>Text</strong>&rdquo; property to:<br /><br />
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                If(
+                 IsBlank(SelectedPerson), 
+                 &quot;N/A&quot;, 
+                 If(
+                  IsBlank(
+                    Office365Users.Manager(
+                     SelectedPerson.UserPrincipalName)),
+                     &quot;N/A&quot;, 
+                     Office365Users.Manager(
+                       SelectedPerson.UserPrincipalName
+                       ).DisplayName))
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >19</div>
+                    <div style=""float: left; width: 75%; "">
+                        Set the &ldquo;<strong>Visible</strong>&rdquo; property of the Gallery control (GallerySelectedPerson) to: <br /><br />
+                        <em>
+                            <pre style=""font-size: " & StepsPanelCodeFontSize & "pt; white-space: pre-wrap; word-break: break-all"">
+                Not(IsBlank(TextInputSearchPerson))
+                            </pre>
+                        </em>
+                    </div>
+                    <div style=""clear: both""></div>
+                
+                    <div style=""float: left; width: 20px; text-align: right; margin: 0 20px 0 0; font-weight: bold;"" >20</div>
+                    <div style=""float: left; width: 75%; "">
+                        Now you can save and run your PowerApp.<br /><br /><br /><br />
+                    </div>
+                    <div style=""clear: both""></div>
+                </div>
+                  "
+            PressedBorderColor: =HtmlTextFunctionPanelSteps_1.BorderColor
+            Visible: =!IsShowResourcesTab
+            Width: =420
+            X: =945
+            Y: =170
+            ZIndex: =13
+
+        HtmlTextFunctionPanelResources_1 As htmlViewer:
+            Font: =Font.'Segoe UI'
+            Height: =195
+            HoverBorderColor: =HtmlTextFunctionPanelResources_1.BorderColor
+            HtmlText: |-
+                ="
+                <div style='margin: 0 0 0 20px; font-size: 12pt; font-weight: normal; color: #444444; padding: 0 10px; width: 100%; overflow: hidden;'>
+                
+                    <div>
+                  
+                    <div style=""margin: 20px 0; font-weight: bold;"">Support &amp; Resources Links</div>
+                    <ul>
+                      <li><a href='https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/add-configure-controls'>Add and configure a control in PowerApps</a></li>
+                      <li><a href='https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/add-data-connection'>Add a data connection in PowerApps</a></li>
+                      <li><a href='https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-office365-users#searchuser'>Office 365 Users SearchUser() funciton</a></li>
+                      <li><a href='https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-office365-users#manager'>Office 365 Users Manager() funciton</a></li>
+                    </ul>
+                  </div>"
+            PressedBorderColor: =HtmlTextFunctionPanelResources_1.BorderColor
+            Visible: =IsShowResourcesTab
+            Width: =420
+            X: =946
+            Y: =572
+            ZIndex: =14
+
